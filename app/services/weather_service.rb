@@ -8,7 +8,6 @@ class WeatherService
   def fetch_weather(latitude, longitude, start_date, end_date)
     response = connection.get do |req|
       req.url url_with_query(latitude, longitude, start_date, end_date)
-      req.headers['X-RapidAPI-Key'] = ENV['RAPIDAPI_API_KEY']
     end
   
     JSON.parse(response.body)
