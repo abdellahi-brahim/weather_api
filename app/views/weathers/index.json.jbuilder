@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.array! @weathers do |weather|
   json.date weather.date
   json.latitude weather.latitude

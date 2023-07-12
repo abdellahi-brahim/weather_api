@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FetchAndCreateWeatherService
   attr_reader :errors
 
@@ -21,7 +23,7 @@ class FetchAndCreateWeatherService
   private
 
   def create_weathers_from_response(response)
-    raise StandardError, response.dig('reason') if response.dig('error')
+    raise StandardError, response['reason'] if response['error']
 
     response['daily']['time'].each_with_index do |date, index|
       max_temp = response['daily']['temperature_2m_max'][index]

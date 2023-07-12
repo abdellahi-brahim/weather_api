@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WeathersController < ApplicationController
   before_action :set_dates_and_coordinates
 

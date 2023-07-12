@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WeatherService
   def connection
     Faraday.new(url: 'https://archive-api.open-meteo.com/') do |faraday|
