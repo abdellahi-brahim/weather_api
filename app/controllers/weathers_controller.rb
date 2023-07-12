@@ -8,25 +8,32 @@ class WeathersController < ApplicationController
       date: @start_date..@end_date
     )
 
-    if @weathers.empty? || @weathers.last.date > @start_date || @weathers.first.date < @end_date
-      byebug
-      if @weathers.empty?
-        fetch_and_create_service = FetchAndCreateWeatherService.new(@latitude, @longitude, @start_date, @end_date)
-      else
-        fetch_and_create_service = FetchAndCreateWeatherService.new(@latitude, @longitude, @start_date, @weathers.first.date - 1.day) if @weathers.first.date > @start_date
-        fetch_and_create_service = FetchAndCreateWeatherService.new(@latitude, @longitude, @weathers.last.date + 1.day, @end_date) if @weathers.last.date < @end_date
-      end
+    return unless @weathers.empty? || @weathers.last.date > @start_date || @weathers.first.date < @end_date
 
-      unless fetch_and_create_service&.call
-        render json: { error: "Failed to fetch weather data: #{fetch_and_create_service&.errors}" }, status: :internal_server_error and return
+    byebug
+    if @weathers.empty?
+      fetch_and_create_service = FetchAndCreateWeatherService.new(@latitude, @longitude, @start_date, @end_date)
+    else
+      if @weathers.first.date > @start_date
+        fetch_and_create_service = FetchAndCreateWeatherService.new(@latitude, @longitude, @start_date,
+                                                                    @weathers.first.date - 1.day)
       end
-      
-      @weathers = Weather.where(
-        latitude: @latitude,
-        longitude: @longitude,
-        date: @start_date..@end_date
-      )
+      if @weathers.last.date < @end_date
+        fetch_and_create_service = FetchAndCreateWeatherService.new(@latitude, @longitude, @weathers.last.date + 1.day,
+                                                                    @end_date)
+      end
     end
+
+    unless fetch_and_create_service&.call
+      render json: { error: "Failed to fetch weather data: #{fetch_and_create_service&.errors}" },
+             status: :internal_server_error and return
+    end
+
+    @weathers = Weather.where(
+      latitude: @latitude,
+      longitude: @longitude,
+      date: @start_date..@end_date
+    )
   end
 
   private
@@ -48,5 +55,5 @@ class WeathersController < ApplicationController
 
   def weather_params
     params.permit(:city, :start_date, :end_date)
-  end  
+  end
 end
