@@ -16,35 +16,35 @@ These instructions will get you a copy of the project up and running on your loc
 
 Clone this repository:
 
-\`\`\`bash
+```bash
 git clone https://github.com/yourusername/weather-api.git
-\`\`\`
+```
 
 Navigate into the project directory:
 
-\`\`\`bash
+```bash
 cd weather-api
-\`\`\`
+```
 
 Install the dependencies:
 
-\`\`\`bash
+```bash
 bundle install
-\`\`\`
+```
 
 Set up the database:
 
-\`\`\`bash
+```bash
 rails db:create db:migrate
-\`\`\`
+```
 
 ### Running the application
 
 Start the Rails server:
 
-\`\`\`bash
+```bash
 rails server
-\`\`\`
+```
 
 The application should now be running at http://localhost:3000.
 
@@ -62,17 +62,17 @@ Query parameters:
 
 Example request:
 
-\`\`\`http
-GET /weathers?city=Berlin&start_date=2023-07-01&end_date=2023-07-31
-\`\`\`
+```http
+GET /weather?city=Berlin&start_date=2023-07-01&end_date=2023-07-31
+```
 
 ## Testing
 
 You can run the test suite with:
 
-\`\`\`bash
+```bash
 rspec
-\`\`\`
+```
 
 ## License
 
