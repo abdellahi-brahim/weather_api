@@ -10,7 +10,6 @@ These instructions will get you a copy of the project up and running on your loc
 
 - Ruby version: 2.7.0 or higher
 - Rails version: 6.0.0 or higher
-- A local PostgreSQL server
 
 ### Installation
 
