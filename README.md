@@ -42,6 +42,7 @@ rails db:create db:migrate
 Start the Rails server:
 
 ```bash
+bundle exec sidekiq
 rails server
 ```
 
