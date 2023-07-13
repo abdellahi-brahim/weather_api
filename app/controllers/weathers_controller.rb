@@ -12,17 +12,24 @@ class WeathersController < ApplicationController
 
     return unless @weathers.empty? || @weathers.last.date > @start_date || @weathers.first.date < @end_date
 
-    byebug
     if @weathers.empty?
       fetch_and_create_service = FetchAndCreateWeatherService.new(@latitude, @longitude, @start_date, @end_date)
     else
       if @weathers.first.date > @start_date
-        fetch_and_create_service = FetchAndCreateWeatherService.new(@latitude, @longitude, @start_date,
-                                                                    @weathers.first.date - 1.day)
+        fetch_and_create_service = FetchAndCreateWeatherService.new(
+          @latitude, 
+          @longitude, 
+          @start_date,
+          @weathers.first.date - 1.day
+        )
       end
       if @weathers.last.date < @end_date
-        fetch_and_create_service = FetchAndCreateWeatherService.new(@latitude, @longitude, @weathers.last.date + 1.day,
-                                                                    @end_date)
+        fetch_and_create_service = FetchAndCreateWeatherService.new(
+          @latitude, 
+          @longitude, 
+          @weathers.last.date + 1.day,
+          @end_date
+        )
       end
     end
 
