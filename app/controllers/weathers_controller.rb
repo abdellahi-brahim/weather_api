@@ -10,42 +10,23 @@ class WeathersController < ApplicationController
       date: @start_date..@end_date
     )
 
-    return unless @weathers.empty? || @weathers.last.date > @start_date || @weathers.first.date < @end_date
+    return unless day_missing? || @weathers.empty?
 
-    if @weathers.empty?
-      fetch_and_create_service = FetchAndCreateWeatherService.new(@latitude, @longitude, @start_date, @end_date)
-    else
-      if @weathers.first.date > @start_date
-        fetch_and_create_service = FetchAndCreateWeatherService.new(
-          @latitude, 
-          @longitude, 
-          @start_date,
-          @weathers.first.date - 1.day
-        )
-      end
-      if @weathers.last.date < @end_date
-        fetch_and_create_service = FetchAndCreateWeatherService.new(
-          @latitude, 
-          @longitude, 
-          @weathers.last.date + 1.day,
-          @end_date
-        )
-      end
-    end
-
-    unless fetch_and_create_service&.call
-      render json: { error: "Failed to fetch weather data: #{fetch_and_create_service&.errors}" },
-             status: :internal_server_error and return
-    end
-
-    @weathers = Weather.where(
-      latitude: @latitude,
-      longitude: @longitude,
-      date: @start_date..@end_date
-    )
+    FetchAndCreateWeatherService.new(
+      @latitude,
+      @longitude,
+      @start_date,
+      @end_date
+    ).call
+  rescue StandardError => e
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   private
+
+  def day_missing?
+    @weathers.count != (@end_date - @start_date).to_i + 1
+  end
 
   def set_dates_and_coordinates
     city = weather_params[:city]

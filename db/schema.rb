@@ -12,14 +12,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_230_712_193_645) do
-  create_table 'weathers', force: :cascade do |t|
-    t.float 'latitude'
-    t.float 'longitude'
-    t.date 'date'
-    t.integer 'max_temperature'
-    t.integer 'min_temperature'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
+ActiveRecord::Schema[7.0].define(version: 2023_07_12_193645) do
+  create_table "weathers", force: :cascade do |t|
+    t.float "latitude"
+    t.float "longitude"
+    t.date "date"
+    t.integer "max_temperature"
+    t.integer "min_temperature"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["latitude", "longitude", "date"], name: "index_weathers_on_latitude_and_longitude_and_date", unique: true
   end
+
 end

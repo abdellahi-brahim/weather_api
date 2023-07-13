@@ -11,5 +11,7 @@ class CreateWeathers < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
+    
+    add_index :weathers, [:latitude, :longitude, :date], unique: true
   end
 end
