@@ -42,7 +42,7 @@ class FetchAndCreateWeatherService
       })
     end
 
-    # Run Job to create weathers
+    SaveWeathersHistoryJob.perform_async(weathers)
 
     weathers
   end
