@@ -11,10 +11,10 @@ class WeatherService
     response = connection.get do |req|
       req.url url_with_query(latitude, longitude, start_date, end_date)
     end
-
+    
     JSON.parse(response.body)
   end
-
+  
   def url_with_query(latitude, longitude, start_date, end_date)
     parameters = {
       'latitude' => latitude,

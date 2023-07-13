@@ -12,12 +12,14 @@ class WeathersController < ApplicationController
 
     return unless day_missing? || @weathers.empty?
 
-    FetchAndCreateWeatherService.new(
+    
+
+    @weathers = FetchAndCreateWeatherService.call(
       @latitude,
       @longitude,
       @start_date,
       @end_date
-    ).call
+    )
   rescue StandardError => e
     render json: { error: e.message }, status: :unprocessable_entity
   end
